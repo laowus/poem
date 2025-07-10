@@ -15,7 +15,7 @@ export default function HomeScreen() {
       const db = await SQLite.openDatabaseAsync(DATABASE_NAME);
       try {
         const allRows = await db.getAllAsync(
-          "SELECT writerid,writername FROM writer"
+          "SELECT writerid,writername FROM writer limit 4"
         );
         const typedRows = allRows.map(
           (row) =>
