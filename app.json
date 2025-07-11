@@ -11,14 +11,22 @@
     "ios": {
       "supportsTablet": true
     },
-    "assets": ["./assets/database/poem.db"],
+    "assets": [
+      "./assets/database/poem.zip"
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": ["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"]
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
+      ],
+      "package": "com.laowus.poem"
     },
     "web": {
       "bundler": "metro",
