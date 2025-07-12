@@ -25,36 +25,39 @@ export default function StartScreen() {
 
   useEffect(() => {
     const checkDatabaseFile = async () => {
-      // const exist = await fileExist(dbPath);
-      // if (exist) {
-      //   console.log("数据库存在");
-      //   //setIsDatabaseLoaded(true);
-      // } else {
-      //   console.log("数据库不存在");
-      try {
-        const asset = Asset.fromModule(require("@/assets/database/poem.zip"));
-        await asset.downloadAsync();
-        const fileInfo = await FileSystem.getInfoAsync(asset.localUri!);
-        if (fileInfo.exists && fileInfo.size) {
-          console.log("zip 存在 文件大小:", fileInfo.size);
-          try {
-            // 使用 unzip 方法进行解压，目标路径改为目录
-            await unzip(asset.localUri!, dbDir);
-            console.log("解压完成", dbDir);
-            const dbExist = await fileExist(dbPath);
-            if (dbExist) {
-              setIsDatabaseLoaded(true);
-              setIsLoading(false);
+      const exist = await fileExist(dbPath);
+      if (exist) {
+        console.log("数据库存在");
+        setIsDatabaseLoaded(true);
+        setIsLoading(false);
+      } else {
+        console.log("数据库不存在");
+        try {
+          const asset = Asset.fromModule(require("@/assets/database/poem.zip"));
+          await asset.downloadAsync();
+          const fileInfo = await FileSystem.getInfoAsync(asset.localUri!);
+          if (fileInfo.exists && fileInfo.size) {
+            console.log("zip 存在 文件大小:", fileInfo.size);
+            try {
+              // 使用 unzip 方法进行解压，目标路径改为目录
+              await unzip(asset.localUri!, dbDir);
+              console.log("解压完成", dbDir);
+              const dbExist = await fileExist(dbPath);
+              if (dbExist) {
+                setIsDatabaseLoaded(true);
+                setIsLoading(false);
+              }
+            } catch (error) {
+              console.error("解压失败:", error);
             }
-          } catch (error) {
-            console.error("解压失败:", error);
+          } else {
+            console.log("zip 文件不存在或无法获取大小");
           }
-        } else {
-          console.log("zip 文件不存在或无法获取大小");
+        } catch (error) {
+          console.error("下载资源时出错:", error);
         }
-      } catch (error) {
-        console.error("下载资源时出错:", error);
       }
+
       // }
     };
     checkDatabaseFile();
